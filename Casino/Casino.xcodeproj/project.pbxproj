@@ -27,6 +27,8 @@
 		BAA2D402293CE97200E43744 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D401293CE97200E43744 /* Model.swift */; };
 		BAA2D404293CF86800E43744 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D403293CF86800E43744 /* SettingsVC.swift */; };
 		BAA2D408293E363900E43744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D407293E363800E43744 /* ContentView.swift */; };
+		BAA2D40A293E390E00E43744 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D409293E390E00E43744 /* TableVC.swift */; };
+		BAA2D40C293E3C8400E43744 /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D40B293E3C8400E43744 /* SectionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		BAA2D401293CE97200E43744 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		BAA2D403293CF86800E43744 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		BAA2D407293E363800E43744 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BAA2D409293E390E00E43744 /* TableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVC.swift; sourceTree = "<group>"; };
+		BAA2D40B293E3C8400E43744 /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				BA838763293A6F8E005FBB01 /* CustomTxtField.swift */,
+				BAA2D40B293E3C8400E43744 /* SectionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,6 +180,7 @@
 				BA838765293A7059005FBB01 /* SignUpVC.swift */,
 				BAA2D403293CF86800E43744 /* SettingsVC.swift */,
 				BA838767293A9331005FBB01 /* LogInVC.swift */,
+				BAA2D409293E390E00E43744 /* TableVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -324,7 +330,9 @@
 			files = (
 				BA83872D293A04B9005FBB01 /* RouletteVC.swift in Sources */,
 				BA838764293A6F8E005FBB01 /* CustomTxtField.swift in Sources */,
+				BAA2D40C293E3C8400E43744 /* SectionCell.swift in Sources */,
 				BA838768293A9331005FBB01 /* LogInVC.swift in Sources */,
+				BAA2D40A293E390E00E43744 /* TableVC.swift in Sources */,
 				BA838729293A04B9005FBB01 /* AppDelegate.swift in Sources */,
 				BA838766293A7059005FBB01 /* SignUpVC.swift in Sources */,
 				BAA2D408293E363900E43744 /* ContentView.swift in Sources */,

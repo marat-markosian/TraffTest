@@ -75,21 +75,22 @@ struct ContentView: View {
         var sector: Sector = Sector(number: -1, color: .empty)
         
         while sector == Sector(number: -1, color: .empty) && i < sectors.count {
-            let start: Double = halfSector * Double((i*2 + 1)) - halfSector
-            let end: Double = halfSector * Double((i*2 + 3))
+            let start: Double = halfSector * Double((i * 2 + 1)) - halfSector
+            let end: Double = halfSector * Double((i * 2 + 3))
             
             if(angle >= start && angle < end) {
                 sector = sectors[i]
             }
-            i+=1
+            i += 1
         }
+        Game.instance.resultSect = sector
         return "Sector\n\(sector.number) \(sector.color.rawValue)"
     }
     
     var body: some View {
         VStack {
-//            Text(self.isAnimating ? "Spining\n..." : sectorFromAngle(angle : newAngle))
-//                .multilineTextAlignment(.center)
+            Text(self.isAnimating ? "Spining\n..." : sectorFromAngle(angle : newAngle))
+                .multilineTextAlignment(.center)
             Image("Arrow")
                 .resizable()
                 .scaledToFit()
@@ -98,7 +99,7 @@ struct ContentView: View {
                 .resizable()
                 .scaledToFit()
                 .rotationEffect(Angle(degrees: spinDegrees))
-                .frame(width: 150, height: 150, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 180, height: 180, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .animation(spinAnimation)
             Button("PLAY") {
                 isAnimating = true
@@ -111,7 +112,7 @@ struct ContentView: View {
             }
             .padding(40)
             .disabled(isAnimating == true)
-            .frame(width: 200, height: 200)
+            .font(.custom("Avenir-Heavy", size: 25))
         }
     }
 }

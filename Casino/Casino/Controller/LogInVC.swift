@@ -72,12 +72,23 @@ class LogInVC: UIViewController {
 extension LogInVC {
     
     func login(email: String, password: String) {
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            if let result = authResult {
-                self!.dismiss(animated: true)
+        Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
+            if authResult != nil {
+                UserDefaults.standard.set(true, forKey: "isLogedIn")
+                guard let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate,
+                      let window = sceneDelegate.window else { return }
+                let gameView = RouletteVC()
+                gameView.tabBarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "gamecontroller"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
+                
+                let settingsView = SettingsVC()
+                settingsView.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
+                
+                let nextNavigationController = UINavigationController(rootViewController: gameView)
+                let tabBarController = UITabBarController()
+                tabBarController.setViewControllers([gameView, settingsView], animated: false)
+                window.rootViewController = tabBarController
             } else if let error = error {
-                self?.showError(descr: error.localizedDescription)
+                self.showError(descr: error.localizedDescription)
             }
         }
     }

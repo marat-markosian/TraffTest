@@ -17,7 +17,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.overrideUserInterfaceStyle = .light
         window?.windowScene = windowScene
-        window?.rootViewController = RouletteVC()
+        if UserDefaults.standard.bool(forKey: "isSighedUp") && !UserDefaults.standard.bool(forKey: "isLogedIn") {
+            window?.rootViewController = LogInVC()
+        } else if !UserDefaults.standard.bool(forKey: "isSighedUp") {
+            window?.rootViewController = SignUpVC()
+        } else {
+            guard let sceneDelegate = window?.windowScene?.delegate as? SceneDelegate,
+                  let window = sceneDelegate.window else { return }
+            let gameView = RouletteVC()
+            gameView.tabBarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "gamecontroller"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
+            
+            let settingsView = SettingsVC()
+            settingsView.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
+            
+            let nextNavigationController = UINavigationController(rootViewController: gameView)
+            let tabBarController = UITabBarController()
+            tabBarController.setViewControllers([gameView, settingsView], animated: false)
+            window.rootViewController = tabBarController
+        }
+
         window?.makeKeyAndVisible()
         
     }

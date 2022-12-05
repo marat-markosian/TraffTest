@@ -24,7 +24,9 @@
 		BA838766293A7059005FBB01 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA838765293A7059005FBB01 /* SignUpVC.swift */; };
 		BA838768293A9331005FBB01 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA838767293A9331005FBB01 /* LogInVC.swift */; };
 		BA83876B293A991D005FBB01 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA83876A293A991D005FBB01 /* GoogleSignInSwift */; };
-		BA838772293B8A66005FBB01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA838771293B8A66005FBB01 /* ContentView.swift */; };
+		BAA2D402293CE97200E43744 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D401293CE97200E43744 /* Model.swift */; };
+		BAA2D404293CF86800E43744 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D403293CF86800E43744 /* SettingsVC.swift */; };
+		BAA2D408293E363900E43744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D407293E363800E43744 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +63,9 @@
 		BA838763293A6F8E005FBB01 /* CustomTxtField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTxtField.swift; sourceTree = "<group>"; };
 		BA838765293A7059005FBB01 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		BA838767293A9331005FBB01 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
-		BA838771293B8A66005FBB01 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = "../../../../Downloads/SwiftUI-Roulette-main/Roulette/ContentView.swift"; sourceTree = "<group>"; };
+		BAA2D401293CE97200E43744 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		BAA2D403293CF86800E43744 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		BAA2D407293E363800E43744 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,14 +121,11 @@
 		BA838727293A04B9005FBB01 /* Casino */ = {
 			isa = PBXGroup;
 			children = (
-				BAA2D400293CDCF300E43744 /* New Group */,
 				BA838728293A04B9005FBB01 /* AppDelegate.swift */,
 				BA83872A293A04B9005FBB01 /* SceneDelegate.swift */,
-				BA83872C293A04B9005FBB01 /* RouletteVC.swift */,
-				BA838771293B8A66005FBB01 /* ContentView.swift */,
-				BA838765293A7059005FBB01 /* SignUpVC.swift */,
-				BA838767293A9331005FBB01 /* LogInVC.swift */,
-				BA838763293A6F8E005FBB01 /* CustomTxtField.swift */,
+				BAA2D400293CDCF300E43744 /* Model */,
+				BAA2D405293E360B00E43744 /* View */,
+				BAA2D406293E361800E43744 /* Controller */,
 				BA838731293A04BD005FBB01 /* Assets.xcassets */,
 				BA838733293A04BD005FBB01 /* LaunchScreen.storyboard */,
 				BA838736293A04BD005FBB01 /* Info.plist */,
@@ -150,11 +151,32 @@
 			path = CasinoUITests;
 			sourceTree = "<group>";
 		};
-		BAA2D400293CDCF300E43744 /* New Group */ = {
+		BAA2D400293CDCF300E43744 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BAA2D401293CE97200E43744 /* Model.swift */,
 			);
-			path = "New Group";
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BAA2D405293E360B00E43744 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BA838763293A6F8E005FBB01 /* CustomTxtField.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BAA2D406293E361800E43744 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BA83872C293A04B9005FBB01 /* RouletteVC.swift */,
+				BAA2D407293E363800E43744 /* ContentView.swift */,
+				BA838765293A7059005FBB01 /* SignUpVC.swift */,
+				BAA2D403293CF86800E43744 /* SettingsVC.swift */,
+				BA838767293A9331005FBB01 /* LogInVC.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,12 +323,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA83872D293A04B9005FBB01 /* RouletteVC.swift in Sources */,
-				BA838772293B8A66005FBB01 /* ContentView.swift in Sources */,
 				BA838764293A6F8E005FBB01 /* CustomTxtField.swift in Sources */,
 				BA838768293A9331005FBB01 /* LogInVC.swift in Sources */,
 				BA838729293A04B9005FBB01 /* AppDelegate.swift in Sources */,
 				BA838766293A7059005FBB01 /* SignUpVC.swift in Sources */,
+				BAA2D408293E363900E43744 /* ContentView.swift in Sources */,
 				BA83872B293A04B9005FBB01 /* SceneDelegate.swift in Sources */,
+				BAA2D402293CE97200E43744 /* Model.swift in Sources */,
+				BAA2D404293CF86800E43744 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SimpleRoulette
+import FirebaseAuth
 import SwiftUI
 
 class RouletteVC: UIViewController {
@@ -14,7 +14,19 @@ class RouletteVC: UIViewController {
     private lazy var rolSwiftUI = ContentView()
     private lazy var rouletteSpin = UIHostingController(rootView: rolSwiftUI)
     
+    private lazy var nameLbl = UILabel()
+    
     private lazy var roulView = UIView()
+    
+    override func loadView() {
+        super.loadView()
+        
+        if Auth.auth().currentUser != nil {
+            let user = Auth.auth().currentUser
+            UserInfo.instance.userID = user?.uid ?? ""
+            UserInfo.instance.userDisplayName = user?.displayName ?? "Anonymous"
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +35,16 @@ class RouletteVC: UIViewController {
         setUpAutoLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UserInfo.instance.getUserBalance()
+    }
+        
     private func setUpSubviews() {
         view.backgroundColor = .white
+        
+        UserInfo.instance.delegate = self
         
         view.addSubview(roulView)
         roulView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +54,10 @@ class RouletteVC: UIViewController {
         roulView.addSubview(rouletteSpin.view)
         rouletteSpin.didMove(toParent: self)
         
+        view.addSubview(nameLbl)
+        nameLbl.textColor = .green
+        nameLbl.font = UIFont(name: "Avenir-Heavy", size: 20)
+        nameLbl.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setUpAutoLayout() {
@@ -43,9 +67,22 @@ class RouletteVC: UIViewController {
             roulView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             roulView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             rouletteSpin.view.widthAnchor.constraint(equalToConstant: 200),
-            rouletteSpin.view.heightAnchor.constraint(equalToConstant: 200)
+            rouletteSpin.view.heightAnchor.constraint(equalToConstant: 200),
+            
+            nameLbl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            nameLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10)
         ])
     }
 
 }
 
+extension RouletteVC: UserDelegate {
+    func updateInfo() {
+        DispatchQueue.main.async {
+            self.nameLbl.text = "\(UserInfo.instance.userDisplayName) \(UserInfo.instance.userBalance)$"
+        }
+
+    }
+    
+    
+}

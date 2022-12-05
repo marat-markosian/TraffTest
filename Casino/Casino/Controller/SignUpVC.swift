@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import CoreData
+import FirebaseFirestore
 import FirebaseAuth
 
 class SignUpVC: UIViewController {
@@ -15,7 +15,10 @@ class SignUpVC: UIViewController {
     private lazy var passwordTxt = CustomTxtField()
     private lazy var signupBtn = UIButton()
     private lazy var nameTxt = CustomTxtField()
+    private lazy var anonymBtn = UIButton()
 
+    let db = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,11 +33,13 @@ class SignUpVC: UIViewController {
         view.addSubview(passwordTxt)
         view.addSubview(signupBtn)
         view.addSubview(nameTxt)
+        view.addSubview(anonymBtn)
         
         emailTxt.translatesAutoresizingMaskIntoConstraints = false
         passwordTxt.translatesAutoresizingMaskIntoConstraints = false
         signupBtn.translatesAutoresizingMaskIntoConstraints = false
         nameTxt.translatesAutoresizingMaskIntoConstraints = false
+        anonymBtn.translatesAutoresizingMaskIntoConstraints = false
                 
         signupBtn.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 25)
         signupBtn.setTitleColor(.black, for: .normal)
@@ -50,6 +55,10 @@ class SignUpVC: UIViewController {
         emailTxt.keyboardType = .emailAddress
         passwordTxt.isSecureTextEntry = true
         
+        anonymBtn.setTitle("Anonymous SignUp", for: .normal)
+        anonymBtn.setTitleColor(.black, for: .normal)
+        anonymBtn.titleLabel?.font = UIFont(name: "Avenir", size: 20)
+        anonymBtn.addTarget(self, action: #selector(signAnonym), for: .touchUpInside)
     }
     
     private func setUpAutoLayout() {
@@ -70,7 +79,10 @@ class SignUpVC: UIViewController {
             nameTxt.heightAnchor.constraint(equalToConstant: 40),
             
             signupBtn.topAnchor.constraint(equalTo: nameTxt.bottomAnchor, constant: 50),
-            signupBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            signupBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            anonymBtn.topAnchor.constraint(equalTo: signupBtn.bottomAnchor, constant: 20),
+            anonymBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
 
         ])
 
@@ -89,7 +101,20 @@ extension SignUpVC {
                 changeReq?.commitChanges() { error in
                     self.showError(descr: error?.localizedDescription ?? "Name was not saved")
                 }
-                self.dismiss(animated: true)
+                self.setUserBalance(id: result.user.uid)
+                UserDefaults.standard.set(true, forKey: "isSighedUp")
+                guard let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate,
+                      let window = sceneDelegate.window else { return }
+                let gameView = RouletteVC()
+                gameView.tabBarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "gamecontroller"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
+                
+                let settingsView = SettingsVC()
+                settingsView.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
+                
+                let nextNavigationController = UINavigationController(rootViewController: gameView)
+                let tabBarController = UITabBarController()
+                tabBarController.setViewControllers([gameView, settingsView], animated: false)
+                window.rootViewController = tabBarController
             } else if let error = error {
                 self.showError(descr: error.localizedDescription)
             }
@@ -106,6 +131,36 @@ extension SignUpVC {
                 }
         }
         
+    }
+    
+    @objc private func signAnonym() {
+        Auth.auth().signInAnonymously { authResult, error in
+            guard let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate,
+                  let window = sceneDelegate.window else { return }
+            let gameView = RouletteVC()
+            gameView.tabBarItem = UITabBarItem(title: "Game", image: UIImage(systemName: "gamecontroller"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
+            
+            let settingsView = SettingsVC()
+            settingsView.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gearshape"), selectedImage: UIImage(systemName: "gearshape.fill"))
+            
+            let nextNavigationController = UINavigationController(rootViewController: gameView)
+            let tabBarController = UITabBarController()
+            tabBarController.setViewControllers([gameView, settingsView], animated: false)
+            window.rootViewController = tabBarController
+
+        }
+    }
+    
+    func setUserBalance(id: String) {
+        db.collection("Balances").document(id).setData([
+            "balance": 2000,
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
     }
     
     func showError(descr: String) {

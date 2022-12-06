@@ -29,7 +29,7 @@ struct UserInfo {
     
     var userDisplayName = ""
     var userID = ""
-    var userBalance = 0
+    var userBalance = 0.0
 
     var newBalances: [[String : Any]] = []
     var balancesID: [String] = []
@@ -39,11 +39,25 @@ struct UserInfo {
 
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                let balanceInt = document.data()?["balance"] as! Int
-                UserInfo.instance.userBalance = balanceInt
+                let balance = document.data()?["balance"] as! Double
+                UserInfo.instance.userBalance = balance
                 delegate?.updateInfo()
             } else {
                 print("Document does not exist")
+            }
+        }
+    }
+    
+    func updateBalance(newBalance: Double) {
+        let ref = data.collection("Balances").document(UserInfo.instance.userID)
+
+        ref.updateData([
+            "balance": newBalance
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
             }
         }
     }
@@ -55,8 +69,9 @@ struct Game {
     static var instance = Game()
     
     var bet: Int = -1
-    var rangeBet: ClosedRange = -1 ... -1
+    var rangeBet: ClosedRange = 0...0
     var resultSect: Sector = Sector(number: -1, color: .empty)
+    var betValue = 0.0
     
     let sectors: [Sector] = [
                              Sector(number: 1, color: .red),
@@ -96,5 +111,6 @@ struct Game {
                              Sector(number: 35, color: .black),
                              Sector(number: 36, color: .red)                             
     ]
+    
 
 }

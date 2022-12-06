@@ -17,6 +17,8 @@ class RouletteVC: UIViewController {
     
     private lazy var nameLbl = UILabel()
     private lazy var tableBet = UIButton()
+    private lazy var stepValueLbl = UILabel()
+    private lazy var betStepper = UIStepper()
     
     override func loadView() {
         super.loadView()
@@ -65,6 +67,17 @@ class RouletteVC: UIViewController {
         tableBet.setTitle("Choose Sector", for: .normal)
         tableBet.titleLabel?.font = UIFont(name: "Avenir", size: 20)
         tableBet.addTarget(self, action: #selector(moveToTable), for: .touchUpInside)
+        
+        view.addSubview(stepValueLbl)
+        stepValueLbl.font = UIFont(name: "Avenir", size: 20)
+        stepValueLbl.textColor = .black
+        stepValueLbl.text = "Your bet:"
+        stepValueLbl.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(betStepper)
+        betStepper.wraps = false
+        betStepper.translatesAutoresizingMaskIntoConstraints = false
+        betStepper.addTarget(self, action: #selector(makeStep), for: .touchUpInside)
     }
 
     private func setUpAutoLayout() {
@@ -72,7 +85,7 @@ class RouletteVC: UIViewController {
             roulView.heightAnchor.constraint(equalToConstant: 500),
             roulView.widthAnchor.constraint(equalToConstant: 200),
             roulView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            roulView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            roulView.topAnchor.constraint(equalTo: nameLbl.bottomAnchor, constant: 10),
             rouletteSpin.view.widthAnchor.constraint(equalToConstant: 200),
             rouletteSpin.view.heightAnchor.constraint(equalToConstant: 500),
             
@@ -80,8 +93,21 @@ class RouletteVC: UIViewController {
             nameLbl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             
             tableBet.topAnchor.constraint(equalTo: roulView.bottomAnchor),
-            tableBet.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            tableBet.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             
+            stepValueLbl.topAnchor.constraint(equalTo: tableBet.bottomAnchor, constant: 20),
+            stepValueLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            betStepper.topAnchor.constraint(equalTo: stepValueLbl.bottomAnchor, constant: 5),
+            betStepper.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    @objc private func makeStep(_ sender: UIStepper) {
+        DispatchQueue.main.async {
+            self.stepValueLbl.text = "Your bet: \(sender.value)"
+            Game.instance.betValue = sender.value
+        }
     }
     
     @objc private func moveToTable() {
@@ -94,12 +120,21 @@ class RouletteVC: UIViewController {
 
 extension RouletteVC: UserDelegate {
     func updateInfo() {
-        DispatchQueue.main.async {
-            self.nameLbl.text = "\(UserInfo.instance.userDisplayName) \(UserInfo.instance.userBalance)$"
+        if UserInfo.instance.userBalance > 100 {
+            DispatchQueue.main.async {
+                self.nameLbl.text = "\(UserInfo.instance.userDisplayName) \(UserInfo.instance.userBalance)$"
+                self.betStepper.maximumValue = UserInfo.instance.userBalance
+                self.betStepper.stepValue = UserInfo.instance.userBalance / 10
+                self.betStepper.minimumValue = UserInfo.instance.userBalance / 10
+            }
+        } else {
+            let newBalance = UserInfo.instance.userBalance + 100
+            UserInfo.instance.updateBalance(newBalance: newBalance)
+            UserInfo.instance.getUserBalance()
         }
-
     }
 }
+
 
 extension RouletteVC: GameDelegate {
     func updateBet() {

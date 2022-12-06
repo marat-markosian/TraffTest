@@ -18,6 +18,7 @@ struct Sector: Equatable {
     let color: Color
 }
 struct ContentView: View {
+    @State private var showingAlert = false
     @State private var isAnimating = false
     @State private var spinDegrees = 0.0
     @State private var rand = 0.0
@@ -84,6 +85,108 @@ struct ContentView: View {
             i += 1
         }
         Game.instance.resultSect = sector
+        if Game.instance.bet != -1 {
+            if Game.instance.bet == sector.number {
+                let newBalance = (Game.instance.betValue * 35) + UserInfo.instance.userBalance
+                UserInfo.instance.updateBalance(newBalance: newBalance)
+                UserInfo.instance.getUserBalance()
+                UserInfo.instance.delegate?.updateInfo()
+            } else {
+                let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                UserInfo.instance.updateBalance(newBalance: newBalance)
+                UserInfo.instance.getUserBalance()
+                UserInfo.instance.delegate?.updateInfo()
+            }
+        } else {
+            switch Game.instance.rangeBet {
+            case 1...4:
+                var num = 1
+                for _ in 1...12 {
+                    if num == sector.number {
+                        let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                        UserInfo.instance.updateBalance(newBalance: newBalance)
+                        UserInfo.instance.getUserBalance()
+                        UserInfo.instance.delegate?.updateInfo()
+                        break
+                    }
+                    num += 3
+                }
+                let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                UserInfo.instance.updateBalance(newBalance: newBalance)
+                UserInfo.instance.getUserBalance()
+                UserInfo.instance.delegate?.updateInfo()
+            case 2...5:
+                var num = 2
+                for _ in 1...12 {
+                    if num == sector.number {
+                        let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                        UserInfo.instance.updateBalance(newBalance: newBalance)
+                        UserInfo.instance.getUserBalance()
+                        UserInfo.instance.delegate?.updateInfo()
+                        break
+                    }
+                    num += 3
+                }
+                let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                UserInfo.instance.updateBalance(newBalance: newBalance)
+                UserInfo.instance.getUserBalance()
+                UserInfo.instance.delegate?.updateInfo()
+            case 3...6:
+                var num = 3
+                for _ in 1...12 {
+                    if num == sector.number {
+                        let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                        UserInfo.instance.updateBalance(newBalance: newBalance)
+                        UserInfo.instance.getUserBalance()
+                        UserInfo.instance.delegate?.updateInfo()
+                        break
+                    }
+                    num += 3
+                }
+                let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                UserInfo.instance.updateBalance(newBalance: newBalance)
+                UserInfo.instance.getUserBalance()
+                UserInfo.instance.delegate?.updateInfo()
+            case 1...12:
+                if Game.instance.rangeBet.contains(sector.number) {
+                    let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                } else {
+                    let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                }
+            case 13...24:
+                if Game.instance.rangeBet.contains(sector.number) {
+                    let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                } else {
+                    let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                }
+            case 25...36:
+                if Game.instance.rangeBet.contains(sector.number) {
+                    let newBalance = (Game.instance.betValue * 2) + UserInfo.instance.userBalance
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                } else {
+                    let newBalance = UserInfo.instance.userBalance - Game.instance.betValue
+                    UserInfo.instance.updateBalance(newBalance: newBalance)
+                    UserInfo.instance.getUserBalance()
+                    UserInfo.instance.delegate?.updateInfo()
+                }
+            default:
+                break
+            }
+        }
         return "Sector\n\(sector.number) \(sector.color.rawValue)"
     }
     
@@ -102,13 +205,20 @@ struct ContentView: View {
                 .frame(width: 180, height: 180, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .animation(spinAnimation)
             Button("PLAY") {
-                isAnimating = true
-                rand = Double.random(in: 1...360)
-                spinDegrees += 720.0 + rand
-                newAngle = getAngle(angle: spinDegrees)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.9) {
-                    isAnimating = false
+                if Game.instance.rangeBet == 0...0 && Game.instance.bet == -1 {
+                    showingAlert = true
+                } else {
+                    isAnimating = true
+                    rand = Double.random(in: 1...360)
+                    spinDegrees += 720.0 + rand
+                    newAngle = getAngle(angle: spinDegrees)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.9) {
+                        isAnimating = false
+                    }
                 }
+            }
+            .alert("Choose Sector", isPresented: $showingAlert) {
+                Button("OK", role: .cancel) { }
             }
             .padding(40)
             .disabled(isAnimating == true)
@@ -123,4 +233,5 @@ struct ContentView_Previews: PreviewProvider {
             ContentView()
         }
     }
+
 }

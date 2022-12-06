@@ -34,6 +34,7 @@ class TableVC: UIViewController {
         super.viewWillAppear(animated)
         
         Game.instance.bet = -1
+        Game.instance.rangeBet = 0...0
     }
     
     private func setUpSubviews() {

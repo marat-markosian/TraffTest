@@ -126,6 +126,11 @@ extension RouletteVC: UserDelegate {
                 self.betStepper.maximumValue = UserInfo.instance.userBalance
                 self.betStepper.stepValue = UserInfo.instance.userBalance / 10
                 self.betStepper.minimumValue = UserInfo.instance.userBalance / 10
+                self.betStepper.value = UserInfo.instance.userBalance / 10
+                Game.instance.rangeBet = 0...0
+                Game.instance.bet = -1
+                Game.instance.resultSect = Sector(number: -1, color: .empty)
+                self.updateBet()
             }
         } else {
             let newBalance = UserInfo.instance.userBalance + 100

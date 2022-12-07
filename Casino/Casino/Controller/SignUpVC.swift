@@ -102,7 +102,9 @@ extension SignUpVC {
                     self.showError(descr: error?.localizedDescription ?? "Name was not saved")
                 }
                 self.setUserBalance(id: result.user.uid)
+                UserInfo.instance.userDisplayName = name
                 UserDefaults.standard.set(true, forKey: "isSighedUp")
+                UserDefaults.standard.set(true, forKey: "isLogedIn")
                 guard let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate,
                       let window = sceneDelegate.window else { return }
                 let gameView = RouletteVC()
@@ -134,7 +136,14 @@ extension SignUpVC {
     }
     
     @objc private func signAnonym() {
+        
         Auth.auth().signInAnonymously { authResult, error in
+            guard let result = authResult?.user else { return }
+            
+            self.setUserBalance(id: result.uid)
+            UserDefaults.standard.set(true, forKey: "isSighedUp")
+            UserDefaults.standard.set(true, forKey: "isLogedIn")
+
             guard let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate,
                   let window = sceneDelegate.window else { return }
             let gameView = RouletteVC()

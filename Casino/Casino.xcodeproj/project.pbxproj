@@ -29,6 +29,7 @@
 		BAA2D408293E363900E43744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D407293E363800E43744 /* ContentView.swift */; };
 		BAA2D40A293E390E00E43744 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D409293E390E00E43744 /* TableVC.swift */; };
 		BAA2D40C293E3C8400E43744 /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D40B293E3C8400E43744 /* SectionCell.swift */; };
+		BAA2D40E294095B600E43744 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA2D40D294095B600E43744 /* CustomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		BAA2D407293E363800E43744 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BAA2D409293E390E00E43744 /* TableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVC.swift; sourceTree = "<group>"; };
 		BAA2D40B293E3C8400E43744 /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
+		BAA2D40D294095B600E43744 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 			children = (
 				BA838763293A6F8E005FBB01 /* CustomTxtField.swift */,
 				BAA2D40B293E3C8400E43744 /* SectionCell.swift */,
+				BAA2D40D294095B600E43744 /* CustomButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				BA838729293A04B9005FBB01 /* AppDelegate.swift in Sources */,
 				BA838766293A7059005FBB01 /* SignUpVC.swift in Sources */,
 				BAA2D408293E363900E43744 /* ContentView.swift in Sources */,
+				BAA2D40E294095B600E43744 /* CustomButton.swift in Sources */,
 				BA83872B293A04B9005FBB01 /* SceneDelegate.swift in Sources */,
 				BAA2D402293CE97200E43744 /* Model.swift in Sources */,
 				BAA2D404293CF86800E43744 /* SettingsVC.swift in Sources */,

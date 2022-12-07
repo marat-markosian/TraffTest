@@ -62,6 +62,15 @@ struct UserInfo {
         }
     }
 
+    func deleteUserDoc() {
+        data.collection("Balances").document(UserInfo.instance.userID).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
 }
 
 struct Game {
